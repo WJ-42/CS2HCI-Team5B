@@ -8,9 +8,12 @@
   --color-text: #111827;
   --color-text-muted: #6b7280;
   --color-bg: #ffffff;
-  --color-bg-muted: #f9fafb;
+  --color-bg-muted: #fafafa;
   --color-border: #e5e7eb;
   --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --safe-area-top: env(safe-area-inset-top, 0px);
+  --safe-area-bottom: env(safe-area-inset-bottom, 0px);
+  --tab-bar-height: 64px;
 }
 
 /* Base styles */
@@ -24,6 +27,117 @@ body {
   background-color: var(--color-bg);
   color: var(--color-text);
   font-family: var(--font-sans);
+}
+
+/* ─── Phone mockup wrapper ─────────────────────────────────────── */
+.phone-mockup-wrapper {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  background: #f0f0f2;
+}
+
+.phone-frame {
+  position: relative;
+  width: 375px;
+  height: 812px;
+  max-height: calc(100vh - 2rem);
+  border-radius: 44px;
+  padding: 12px;
+  background: linear-gradient(145deg, #2d2d2d 0%, #1a1a1a 100%);
+  box-shadow:
+    0 50px 100px rgba(0, 0, 0, 0.5),
+    0 25px 50px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.phone-notch {
+  position: absolute;
+  top: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 28px;
+  background: #1a1a1a;
+  border-radius: 0 0 20px 20px;
+  z-index: 10;
+}
+
+.phone-screen {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  min-width: 0;
+  border-radius: 36px;
+  overflow: hidden;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  /* Readable base size for mobile (16px prevents iOS zoom on focus) */
+  font-size: 16px;
+}
+
+/* Force bottom nav to stay at bottom inside phone */
+.phone-screen .bottom-nav {
+  flex-shrink: 0;
+  position: relative !important;
+  bottom: auto !important;
+  left: auto !important;
+  right: auto !important;
+}
+
+/* Keep Layout content contained inside phone width */
+.phone-screen > * {
+  min-width: 0;
+  max-width: 100%;
+}
+
+/* Main scrolls; bottom padding for nav */
+.phone-screen main {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 5.5rem;
+}
+
+.phone-home-indicator {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 2px;
+  z-index: 10;
+}
+
+/* Scale phone to fit viewport */
+@media (max-height: 860px) {
+  .phone-frame {
+    transform: scale(0.9);
+    transform-origin: center;
+  }
+}
+
+@media (max-height: 750px) {
+  .phone-frame {
+    transform: scale(0.8);
+    transform-origin: center;
+  }
+}
+
+@media (max-height: 660px) {
+  .phone-frame {
+    transform: scale(0.7);
+    transform-origin: center;
+  }
 }
 
 /* Accessibility: larger text */
@@ -66,65 +180,54 @@ body {
   padding: 0.75rem 1rem;
 }
 
-/* ─── Search page: 2-column layout ─────────────────────────────── */
-
-/* Mobile first: single column stack */
-.search-layout {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-  width: 100%;
-  align-items: flex-start;
-  padding-left: 0;
+/* Hide scrollbar for horizontal carousels */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
-.search-sidebar {
-  display: none; /* hidden on mobile */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
 }
 
-.search-results {
-  flex: 1;
-  min-width: 0;
-  width: 100%;
-}
-
-.search-mobile-filters {
-  display: block; /* visible on mobile */
-}
-
-/* Desktop: sidebar + results side by side */
-@media (min-width: 768px) {
-  .search-layout {
-    flex-direction: row;
-    gap: 6rem;
-    padding-left: 0;
+/* Sidebar slide-in animation */
+@keyframes slide-in-left {
+  from {
+    transform: translateX(-100%);
   }
-
-  .search-sidebar {
-    display: block;
-    width: 320px;
-    flex-shrink: 0;
-    position: sticky;
-    top: 4rem;
-    align-self: flex-start;
-  }
-
-  .search-mobile-filters {
-    display: none; /* hidden on desktop — sidebar replaces it */
+  to {
+    transform: translateX(0);
   }
 }
 
-/* Product grid */
-.search-grid {
+.animate-slide-in-left {
+  animation: slide-in-left 0.25s ease-out;
+}
+
+/* Readable sizing inside phone – bump small text for mobile */
+.phone-screen .text-xs {
+  font-size: 0.8125rem; /* 13px, more readable than 12px */
+}
+
+.phone-screen input,
+.phone-screen select {
+  font-size: 1rem;
+}
+
+/* App safe-area utilities */
+.safe-area-pt {
+  padding-top: max(0.5rem, var(--safe-area-top));
+}
+
+.safe-area-pb {
+  padding-bottom: max(0.5rem, var(--safe-area-bottom));
+}
+
+/* Search results grid (app-style 2-col) */
+.search-results-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 1rem;
-  align-items: stretch;
-  width: 100%;
-}
-
-.search-grid > * {
-  min-height: 100%;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
 }
 
 /* Dual-handle price range slider */

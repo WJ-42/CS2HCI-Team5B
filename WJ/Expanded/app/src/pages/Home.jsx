@@ -4,13 +4,12 @@ import ProductCard from '../components/common/ProductCard'
 import { mockProducts } from '../data/mockProducts'
 
 const SUSTAINABILITY_TIPS = [
-  'Choose products with recyclable or compostable packaging when possible.',
-  'Look for local brands to reduce transport emissions.',
-  'Prefer products with certifications like Fair Trade or organic.',
-  'Compare carbon footprints before buying, small choices add up.',
+  'Choose recyclable or compostable packaging.',
+  'Look for local brands.',
+  'Prefer Fair Trade or organic.',
+  'Compare carbon footprints.',
 ]
 
-// Mocked values for the progress widget
 const MOCKED_CO2_SAVED_KG = 2.4
 const MOCKED_SUSTAINABLE_PICKS_THIS_WEEK = 12
 
@@ -22,63 +21,84 @@ export default function Home() {
   }
 
   return (
-    <div className="py-6 space-y-8">
-      <section className="text-center py-8 px-4 bg-green-50 rounded-2xl border border-green-100">
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">
-          Shop sustainably
-        </h1>
-        <p className="text-gray-700 max-w-md mx-auto mb-4">
-          Find eco-friendly products and make better choices for the planet.
-        </p>
-        <div className="max-w-md mx-auto">
-          <SearchBar
-            placeholder="Search products, brands..."
-            onSelect={(p) => navigate(`/product/${p.id}`)}
-          />
+    <div className="pb-4">
+      {/* Hero: full-width search */}
+      <section className="-mx-4 px-4 pt-4 pb-6 bg-gradient-to-b from-green-50 to-transparent">
+        <div className="mb-2">
+          <h1 className="text-xl font-bold text-gray-900">Shop sustainably</h1>
+          <p className="text-sm text-gray-600 mt-0.5">Find eco-friendly products</p>
+        </div>
+        <SearchBar
+          placeholder="Search products, brands..."
+          onSelect={(p) => navigate(`/product/${p.id}`)}
+        />
+      </section>
+
+      {/* Impact widget: visual card */}
+      <section className="mb-6">
+        <h2 className="text-base font-semibold text-gray-900 mb-3">Your impact this week</h2>
+        <div className="bg-white rounded-2xl p-4 shadow-sm overflow-hidden">
+          <div className="flex gap-4">
+            <div className="flex-1 flex items-center gap-3">
+              <div className="w-12 h-12 rounded-xl bg-green-100 flex items-center justify-center shrink-0">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-6 h-6 text-green-600">
+                  <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" strokeLinecap="round" />
+                </svg>
+              </div>
+              <div>
+                <p className="text-lg font-bold text-green-600">{MOCKED_CO2_SAVED_KG} kg CO2</p>
+                <p className="text-xs text-gray-500">saved</p>
+              </div>
+            </div>
+            <div className="flex-1 flex items-center gap-3 border-l border-gray-100 pl-4">
+              <div className="w-12 h-12 rounded-xl bg-green-100 flex items-center justify-center shrink-0">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-6 h-6 text-green-600">
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </div>
+              <div>
+                <p className="text-lg font-bold text-green-600">{MOCKED_SUSTAINABLE_PICKS_THIS_WEEK}</p>
+                <p className="text-xs text-gray-500">sustainable picks</p>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
-      <section>
-        <h2 className="text-xl font-semibold text-gray-900 mb-4">Your impact this week</h2>
-        <div className="bg-white border border-green-200 rounded-xl p-6 space-y-4">
-          <div>
-            <p className="text-2xl font-bold text-green-600">{MOCKED_CO2_SAVED_KG.toFixed(1)} kg CO2</p>
-            <p className="text-sm text-gray-600">Estimated CO2 saved from sustainable picks</p>
-          </div>
-          <div>
-            <p className="text-2xl font-bold text-green-600">{MOCKED_SUSTAINABLE_PICKS_THIS_WEEK}</p>
-            <p className="text-sm text-gray-600">Sustainable picks this week</p>
-          </div>
-        </div>
-      </section>
-
-      <section>
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-semibold text-gray-900">Featured products</h2>
-          <Link
-            to="/search"
-            className="text-green-600 font-medium hover:underline min-h-[44px] min-w-[44px] flex items-center"
-          >
+      {/* Featured: horizontal carousel */}
+      <section className="mb-6">
+        <div className="flex items-center justify-between mb-3">
+          <h2 className="text-base font-semibold text-gray-900">Featured products</h2>
+          <Link to="/search" className="text-sm text-green-600 font-medium">
             View all
           </Link>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 items-stretch">
-          {featured.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
+        <div className="overflow-x-auto -mx-4 px-4 scrollbar-hide">
+          <div className="flex gap-3 pb-2" style={{ width: 'max-content' }}>
+            {featured.map((product) => (
+              <div key={product.id} className="w-[160px] shrink-0">
+                <ProductCard product={product} variant="compact" />
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
+      {/* Tips: horizontal pills */}
       <section>
-        <h2 className="text-xl font-semibold text-gray-900 mb-4">Sustainability tips</h2>
-        <ul className="space-y-3">
-          {SUSTAINABILITY_TIPS.map((tip, i) => (
-            <li key={i} className="flex gap-2">
-              <span className="text-green-600 font-medium shrink-0">•</span>
-              <span className="text-gray-700">{tip}</span>
-            </li>
-          ))}
-        </ul>
+        <h2 className="text-base font-semibold text-gray-900 mb-3">Tips</h2>
+        <div className="overflow-x-auto -mx-4 px-4 scrollbar-hide">
+          <div className="flex gap-2 pb-2" style={{ width: 'max-content' }}>
+            {SUSTAINABILITY_TIPS.map((tip, i) => (
+              <div
+                key={i}
+                className="shrink-0 px-4 py-3 bg-white rounded-2xl shadow-sm border border-gray-100 max-w-[260px]"
+              >
+                <p className="text-sm text-gray-700">{tip}</p>
+              </div>
+            ))}
+          </div>
+        </div>
       </section>
     </div>
   )

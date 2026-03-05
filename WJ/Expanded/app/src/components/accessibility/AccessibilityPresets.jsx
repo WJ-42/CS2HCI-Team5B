@@ -10,31 +10,25 @@ export default function AccessibilityPresets() {
   const { applyPreset, resetPresets } = useAccessibility()
 
   return (
-    <div className="space-y-4">
-      <h2 className="text-lg font-semibold text-gray-900">Accessibility presets</h2>
-      <p className="text-sm text-gray-600">
-        Apply a preset to quickly adjust settings for common needs.
-      </p>
-      <div className="space-y-3">
-        {PRESETS.map((preset) => (
-          <button
-            key={preset.id}
-            type="button"
-            onClick={() => applyPreset(preset.id)}
-            className="w-full text-left p-4 bg-green-50 border border-green-200 rounded-xl hover:bg-green-100 transition-colors min-h-[44px]"
-          >
-            <span className="font-medium text-gray-900 block">{preset.label}</span>
-            <span className="text-sm text-gray-600">{preset.description}</span>
-          </button>
-        ))}
+    <div className="space-y-2">
+      {PRESETS.map((preset) => (
         <button
+          key={preset.id}
           type="button"
-          onClick={resetPresets}
-          className="w-full p-4 bg-gray-100 border border-gray-200 rounded-xl hover:bg-gray-200 transition-colors font-medium text-gray-700 min-h-[44px]"
+          onClick={() => applyPreset(preset.id)}
+          className="w-full text-left px-4 py-3.5 bg-white rounded-2xl border border-gray-100 shadow-sm hover:bg-green-50 hover:border-green-100 transition-colors min-h-[52px]"
         >
-          Reset to default
+          <span className="font-medium text-gray-900 block">{preset.label}</span>
+          <span className="text-sm text-gray-500">{preset.description}</span>
         </button>
-      </div>
+      ))}
+      <button
+        type="button"
+        onClick={resetPresets}
+        className="w-full px-4 py-3 bg-gray-100 rounded-2xl font-medium text-gray-700 min-h-[48px] active:bg-gray-200"
+      >
+        Reset to default
+      </button>
     </div>
   )
 }

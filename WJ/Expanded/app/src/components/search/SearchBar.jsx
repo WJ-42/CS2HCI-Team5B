@@ -57,7 +57,7 @@ export default function SearchBar({ value, onChange, onSelect, placeholder = 'Se
         onChange={(e) => setQuery(e.target.value)}
         onFocus={() => suggestions.length > 0 && setIsOpen(true)}
         placeholder={placeholder}
-        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none min-h-[44px]"
+        className="w-full px-4 py-3 bg-white/80 rounded-2xl border border-gray-100 shadow-sm focus:ring-2 focus:ring-green-500/30 focus:border-green-400 outline-none min-h-[48px] placeholder:text-gray-400"
         aria-autocomplete="list"
         aria-controls="search-suggestions"
         aria-expanded={isOpen}
@@ -67,7 +67,7 @@ export default function SearchBar({ value, onChange, onSelect, placeholder = 'Se
         <ul
           id="search-suggestions"
           role="listbox"
-          className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded-xl shadow-lg max-h-64 overflow-y-auto z-50"
+          className="absolute top-full left-0 right-0 mt-2 bg-white rounded-2xl shadow-sm border border-gray-100 max-h-64 overflow-y-auto z-50"
         >
           {suggestions.map((product, i) => (
             <li
@@ -75,7 +75,7 @@ export default function SearchBar({ value, onChange, onSelect, placeholder = 'Se
               id={`suggestion-${i}`}
               role="option"
               tabIndex={-1}
-              className="px-4 py-3 hover:bg-green-50 cursor-pointer border-b border-gray-100 last:border-b-0 min-h-[44px] flex flex-col justify-center"
+              className="px-4 py-3 hover:bg-gray-50 active:bg-gray-100 cursor-pointer border-b border-gray-50 last:border-b-0 min-h-[48px] flex flex-col justify-center"
               onClick={() => handleSelect(product)}
               onKeyDown={(e) => {
                 if (e.key === 'Enter') handleSelect(product)
@@ -88,7 +88,7 @@ export default function SearchBar({ value, onChange, onSelect, placeholder = 'Se
         </ul>
       )}
       {isOpen && query && suggestions.length === 0 && (
-        <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded-xl shadow-lg p-4 z-50">
+        <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-2xl shadow-sm border border-gray-100 p-4 z-50">
           <p className="text-gray-600">No products found for "{query}"</p>
         </div>
       )}

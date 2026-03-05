@@ -1,18 +1,14 @@
-import { Link } from 'react-router-dom'
-
 export default function Compare() {
   return (
-    <div className="py-6 space-y-6">
-      <h1 className="text-xl font-semibold text-gray-900">Comparison tool</h1>
-      <p className="text-gray-700">
-        This is a placeholder for the product comparison tool. Teammates will implement side-by-side comparison here.
+    <div className="py-8 flex flex-col items-center justify-center min-h-[200px]">
+      <div className="w-20 h-20 rounded-full bg-gray-100 flex items-center justify-center mb-4">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-10 h-10 text-gray-400">
+          <path d="M16 3h5v5M8 3H3v5M12 8v8M9 12l3-4 3 4" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </div>
+      <p className="text-gray-600 text-center px-4">
+        Compare products side by side. Coming soon.
       </p>
-      <Link
-        to="/"
-        className="inline-block px-4 py-2 bg-green-600 text-white font-medium rounded-xl hover:bg-green-700 min-h-[44px] min-w-[44px]"
-      >
-        Back to Home
-      </Link>
     </div>
   )
 }

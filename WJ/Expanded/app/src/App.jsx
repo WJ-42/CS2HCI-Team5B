@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { AppProvider } from './app/providers/AppProvider'
 import Layout from './components/common/Layout'
+import PhoneFrame from './components/common/PhoneFrame'
 import Home from './pages/Home'
 import Search from './pages/Search'
 import Account from './pages/Account'
@@ -14,8 +15,9 @@ import Compare from './pages/Compare'
 function App() {
   return (
     <AppProvider>
-      <BrowserRouter>
-        <Routes>
+      <PhoneFrame>
+        <BrowserRouter>
+          <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<Home />} />
             <Route path="search" element={<Search />} />
@@ -30,7 +32,8 @@ function App() {
           </Route>
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
-      </BrowserRouter>
+        </BrowserRouter>
+      </PhoneFrame>
     </AppProvider>
   )
 }

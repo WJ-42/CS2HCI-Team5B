@@ -144,11 +144,11 @@ export default function FilterControls() {
               key={opt.value}
               type="button"
               onClick={() => setMinSustainability(opt.value)}
-              className={`px-2.5 py-2 rounded-lg text-sm font-medium min-h-[40px] ${
-                (filters.minSustainability ?? 0) === opt.value
+                className={`px-3 py-2 rounded-2xl text-sm font-medium min-h-[40px] ${
+                  (filters.minSustainability ?? 0) === opt.value
                   ? 'bg-green-600 text-white'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-              }`}
+                  : 'bg-gray-100 text-gray-700'
+                }`}
             >
               {opt.label}
             </button>
@@ -165,7 +165,7 @@ export default function FilterControls() {
           value={filters.maxCarbonFootprint ?? ''}
           onChange={(e) => setMaxCarbon(e.target.value)}
           placeholder="Any"
-          className="w-full px-2 py-2 border border-gray-300 rounded-lg text-sm min-h-[40px]"
+          className="w-full px-4 py-2.5 bg-gray-50 border border-gray-100 rounded-2xl text-sm min-h-[44px]"
         />
       </div>
 
@@ -188,8 +188,8 @@ export default function FilterControls() {
                 key={opt}
                 type="button"
                 onClick={() => toggleArrayFilter('packagingType', opt)}
-                className={`px-2.5 py-2 rounded-lg text-sm font-medium min-h-[40px] ${
-                  active ? 'bg-green-600 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                className={`px-3 py-2 rounded-2xl text-sm font-medium min-h-[40px] ${
+                  active ? 'bg-green-600 text-white' : 'bg-gray-100 text-gray-700'
                 }`}
               >
                 {opt}
@@ -209,8 +209,8 @@ export default function FilterControls() {
                 key={opt}
                 type="button"
                 onClick={() => toggleArrayFilter('brand', opt)}
-                className={`px-2.5 py-2 rounded-lg text-sm font-medium min-h-[40px] ${
-                  active ? 'bg-green-600 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                className={`px-3 py-2 rounded-2xl text-sm font-medium min-h-[40px] ${
+                  active ? 'bg-green-600 text-white' : 'bg-gray-100 text-gray-700'
                 }`}
               >
                 {opt}
@@ -230,8 +230,8 @@ export default function FilterControls() {
                 key={opt}
                 type="button"
                 onClick={() => toggleArrayFilter('nutritionTags', opt)}
-                className={`px-2.5 py-2 rounded-lg text-sm font-medium min-h-[40px] ${
-                  active ? 'bg-green-600 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                className={`px-3 py-2 rounded-2xl text-sm font-medium min-h-[40px] ${
+                  active ? 'bg-green-600 text-white' : 'bg-gray-100 text-gray-700'
                 }`}
               >
                 {opt}

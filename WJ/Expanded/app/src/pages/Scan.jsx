@@ -1,18 +1,17 @@
-import { Link } from 'react-router-dom'
-
 export default function Scan() {
   return (
-    <div className="py-6 space-y-6">
-      <h1 className="text-xl font-semibold text-gray-900">Scan</h1>
-      <p className="text-gray-700">
-        This is a placeholder for the scan screen. Teammates will implement barcode scanning here.
+    <div className="py-8 flex flex-col items-center justify-center min-h-[200px]">
+      <div className="w-20 h-20 rounded-full bg-gray-100 flex items-center justify-center mb-4">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-10 h-10 text-gray-400">
+          <rect x="3" y="3" width="7" height="7" rx="1" strokeLinecap="round" strokeLinejoin="round" />
+          <rect x="14" y="3" width="7" height="7" rx="1" strokeLinecap="round" strokeLinejoin="round" />
+          <rect x="3" y="14" width="7" height="7" rx="1" strokeLinecap="round" strokeLinejoin="round" />
+          <rect x="14" y="14" width="7" height="7" rx="1" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </div>
+      <p className="text-gray-600 text-center px-4">
+        Scan barcodes to find sustainable products. Coming soon.
       </p>
-      <Link
-        to="/"
-        className="inline-block px-4 py-2 bg-green-600 text-white font-medium rounded-xl hover:bg-green-700 min-h-[44px] min-w-[44px]"
-      >
-        Back to Home
-      </Link>
     </div>
   )
 }

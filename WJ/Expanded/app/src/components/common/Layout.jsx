@@ -1,12 +1,13 @@
-import { Outlet, useLocation } from 'react-router-dom'
+import { useState } from 'react'
+import { Outlet } from 'react-router-dom'
 import TopNav from '../nav/TopNav'
 import BottomNav from '../nav/BottomNav'
+import SidebarMenu from '../nav/SidebarMenu'
 import { useAccessibility } from '../../context/AccessibilityContext'
 
 export default function Layout() {
-  const location = useLocation()
+  const [sidebarOpen, setSidebarOpen] = useState(false)
   const { largerText, highContrast, largerTouchTargets } = useAccessibility()
-  const isSearchPage = location.pathname === '/search'
 
   const accessibilityClasses = [
     largerText && 'accessibility-larger-text',
@@ -17,12 +18,13 @@ export default function Layout() {
     .join(' ')
 
   return (
-    <div className={`min-h-screen flex flex-col ${accessibilityClasses}`}>
-      <TopNav />
-      <main className={`flex-1 pb-20 md:pb-6 mx-auto w-full px-4 ${isSearchPage ? 'max-w-6xl' : 'max-w-4xl'}`}>
+    <div className={`min-h-full flex flex-col bg-[#fafafa] relative ${accessibilityClasses}`}>
+      <TopNav onMenuClick={() => setSidebarOpen(true)} />
+      <main className="flex-1 w-full px-4 pb-20 min-w-0 min-h-0">
         <Outlet />
       </main>
       <BottomNav />
+      <SidebarMenu isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
     </div>
   )
 }
