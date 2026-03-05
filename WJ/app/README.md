@@ -56,7 +56,6 @@ WJ/app/
 
 - `/` - Home
 - `/search` - Search with autocomplete
-- `/categories` - Categories browsing
 - `/account` - Account and settings
 - `/accessibility` - Accessibility settings
 - `/filters` - Filters and sorting

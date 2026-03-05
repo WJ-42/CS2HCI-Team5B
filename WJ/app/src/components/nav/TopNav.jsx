@@ -13,7 +13,6 @@ export default function TopNav() {
   const navItems = [
     { to: '/search', label: 'Search' },
     { to: '/scan', label: 'Scan' },
-    { to: '/categories', label: 'Categories' },
     { to: '/account', label: 'Account' },
   ]
 

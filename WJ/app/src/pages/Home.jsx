@@ -56,7 +56,7 @@ export default function Home() {
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-xl font-semibold text-gray-900">Featured products</h2>
           <Link
-            to="/categories"
+            to="/search"
             className="text-green-600 font-medium hover:underline min-h-[44px] min-w-[44px] flex items-center"
           >
             View all
