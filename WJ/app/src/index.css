@@ -1,0 +1,80 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #22c55e;
+  --color-primary-dark: #16a34a;
+  --color-primary-light: #dcfce7;
+  --color-primary-lighter: #bbf7d0;
+  --color-text: #111827;
+  --color-text-muted: #6b7280;
+  --color-bg: #ffffff;
+  --color-bg-muted: #f9fafb;
+  --color-border: #e5e7eb;
+  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* Base styles */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+}
+
+/* Accessibility: larger text */
+.accessibility-larger-text {
+  font-size: 1.125rem;
+}
+
+.accessibility-larger-text h1 {
+  font-size: 2rem;
+}
+
+.accessibility-larger-text h2 {
+  font-size: 1.5rem;
+}
+
+.accessibility-larger-text button,
+.accessibility-larger-text a {
+  font-size: 1.0625rem;
+}
+
+/* Accessibility: high contrast */
+.accessibility-high-contrast {
+  --color-text: #000000;
+  --color-text-muted: #333333;
+  --color-border: #000000;
+  background-color: #ffffff;
+}
+
+.accessibility-high-contrast button,
+.accessibility-high-contrast a {
+  border: 2px solid #000000;
+}
+
+/* Accessibility: larger touch targets (min 44px) */
+.accessibility-touch-large button,
+.accessibility-touch-large a,
+.accessibility-touch-large [role="button"] {
+  min-height: 44px;
+  min-width: 44px;
+  padding: 0.75rem 1rem;
+}
+
+/* Screen reader only - visually hidden but announced */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
