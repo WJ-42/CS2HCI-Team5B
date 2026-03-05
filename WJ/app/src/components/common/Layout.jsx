@@ -1,8 +1,6 @@
 import { Outlet, useLocation } from 'react-router-dom'
 import TopNav from '../nav/TopNav'
 import BottomNav from '../nav/BottomNav'
-import StickyScanButton from './StickyScanButton'
-import OfflineBanner from './OfflineBanner'
 import { useAccessibility } from '../../context/AccessibilityContext'
 
 export default function Layout() {
@@ -20,12 +18,10 @@ export default function Layout() {
 
   return (
     <div className={`min-h-screen flex flex-col ${accessibilityClasses}`}>
-      <OfflineBanner />
       <TopNav />
       <main className={`flex-1 pb-20 md:pb-6 mx-auto w-full px-4 ${isSearchPage ? 'max-w-6xl' : 'max-w-4xl'}`}>
         <Outlet />
       </main>
-      <StickyScanButton />
       <BottomNav />
     </div>
   )
