@@ -12,30 +12,32 @@ export default function ProductCard({ product }) {
       aria-label={`${name} by ${brand}, ${sustainabilityRating} sustainability rating`}
     >
       <Link to={`/product/${product.id}`} className="flex-1 flex flex-col min-h-0">
-        {/* Header: tag, name, brand, price */}
-        <div className="shrink-0">
+        {/* Badge slot: always reserve space so product titles align across all cards */}
+        <div className="shrink-0 min-h-[2rem] flex items-center">
           {isBestSustainableChoice && (
-            <div className="mb-2">
-              <span className="inline-block px-2 py-1 text-xs font-semibold bg-green-100 text-green-800 rounded">
-                Best sustainable choice
-              </span>
-            </div>
+            <span className="inline-block px-2 py-1 text-xs font-semibold bg-green-100 text-green-800 rounded">
+              Best sustainable choice
+            </span>
           )}
-          <h3 className="font-semibold text-gray-900">{name}</h3>
-          <p className="text-sm text-gray-600">{brand}</p>
+        </div>
+
+        {/* Header: name, brand, price — fixed heights for consistent card layout */}
+        <div className="shrink-0 min-h-[5.5rem]">
+          <h3 className="font-semibold text-gray-900 line-clamp-2 min-h-[2.5rem] leading-tight">{name}</h3>
+          <p className="text-sm text-gray-600 truncate min-h-[1.25rem]">{brand}</p>
           <p className="text-lg font-bold text-green-600 mt-1">£{price.toFixed(2)}</p>
         </div>
 
-        {/* Meta chips: rating, CO2e */}
-        <div className="shrink-0 mt-2">
+        {/* Meta chips: rating, CO2e — fixed height */}
+        <div className="shrink-0 mt-2 min-h-[1.75rem] flex items-center">
           <div className="flex flex-wrap gap-1">
             <span className="text-xs bg-gray-100 px-2 py-0.5 rounded">Rating: {sustainabilityRating}</span>
             <span className="text-xs bg-gray-100 px-2 py-0.5 rounded">{carbonFootprint} kg CO2e</span>
           </div>
         </div>
 
-        {/* Attributes: reserve consistent space */}
-        <div className="shrink-0 min-h-[4rem] mt-2">
+        {/* Attributes: reserve consistent space — fixed height */}
+        <div className="shrink-0 h-[4rem] mt-2 overflow-hidden">
           {nutritionTags?.length > 0 && (
             <div className="flex flex-wrap gap-1">
               {nutritionTags.slice(0, 3).map((tag) => (
