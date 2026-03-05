@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
-import AccessibilityToggles from '../components/AccessibilityToggles'
-import AccessibilityPresets from '../components/AccessibilityPresets'
+import AccessibilityToggles from '../components/accessibility/AccessibilityToggles'
+import AccessibilityPresets from '../components/accessibility/AccessibilityPresets'
 import { useAccessibility } from '../context/AccessibilityContext'
 
 export default function Accessibility() {

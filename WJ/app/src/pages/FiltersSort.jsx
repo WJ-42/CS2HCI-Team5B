@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
-import FilterControls from '../components/FilterControls'
-import SortControls from '../components/SortControls'
+import FilterControls from '../components/filters/FilterControls'
+import SortControls from '../components/filters/SortControls'
 
 export default function FiltersSort() {
   return (
@@ -16,11 +16,11 @@ export default function FiltersSort() {
       </div>
 
       <section>
-        <SortControls onChange={() => {}} />
+        <SortControls />
       </section>
 
       <section>
-        <FilterControls onChange={() => {}} />
+        <FilterControls />
       </section>
 
       <div className="flex gap-4">

@@ -1,16 +1,78 @@
-# React + Vite
+# Sustainability Shopping Assistant
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A frontend-only sustainability shopping assistant web application. Built with Vite, React, and Tailwind CSS.
 
-Currently, two official plugins are available:
+## Prerequisites
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Node.js** LTS (v18 or v20 recommended)
 
-## React Compiler
+## How to run
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+```bash
+cd WJ/app
+npm install
+npm run dev
+```
 
-## Expanding the ESLint configuration
+Open [http://localhost:5173](http://localhost:5173) in your browser.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## How to build
+
+```bash
+npm run build
+npm run preview
+```
+
+The built app will be in `dist/`. Use `npm run preview` to serve it locally.
+
+## Folder structure
+
+```
+WJ/app/
+├── src/
+│   ├── app/
+│   │   └── providers/     # AppProvider (filters, sort, persistence)
+│   ├── components/
+│   │   ├── nav/           # TopNav, BottomNav
+│   │   ├── search/        # SearchBar
+│   │   ├── filters/       # FilterControls, SortControls
+│   │   ├── accessibility/ # AccessibilityToggles, AccessibilityPresets
+│   │   ├── common/        # ProductCard, Layout, etc.
+│   │   └── index.js       # Barrel export for shared components
+│   ├── context/           # AccessibilityContext
+│   ├── data/              # mockProducts.js
+│   ├── hooks/             # useFilteredProducts, useAppState
+│   ├── pages/             # Route pages
+│   ├── utils/             # storage.js, filterSort.js
+│   ├── App.jsx
+│   ├── main.jsx
+│   └── index.css
+├── index.html
+├── package.json
+└── vite.config.js
+```
+
+## Routes
+
+- `/` - Home
+- `/search` - Search with autocomplete
+- `/categories` - Categories browsing
+- `/account` - Account and settings
+- `/accessibility` - Accessibility settings
+- `/filters` - Filters and sorting
+- `/product/:id` - Product detail (placeholder)
+- `/scan` - Scan screen (placeholder)
+- `/wishlist` - Saved items (placeholder)
+- `/compare` - Comparison tool (placeholder)
+
+## Merge later guide
+
+This is a 4-person group project. Teammates work in their own folders (MA, WA, YA, WJ).
+
+**When merging teammate work into WJ/app:**
+
+1. Copy their pages into `src/pages/`
+2. Copy their components into the appropriate `src/components/` subfolders (nav, search, filters, accessibility, common)
+3. Update routes in `App.jsx`
+4. Keep shared mock data in `src/data/mockProducts.js` and ensure all use it consistently
+5. Use `AppProvider` for filters/sort and `AccessibilityProvider` for accessibility settings

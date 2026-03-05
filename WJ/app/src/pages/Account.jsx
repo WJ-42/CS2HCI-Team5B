@@ -35,14 +35,20 @@ export default function Account() {
       <section>
         <h2 className="text-lg font-semibold text-gray-900 mb-4">Your activity</h2>
         <div className="space-y-2">
-          <div className="flex items-center justify-between p-4 bg-white border border-gray-200 rounded-xl">
+          <Link
+            to="/wishlist"
+            className="flex items-center justify-between p-4 bg-white border border-gray-200 rounded-xl hover:bg-gray-50 min-h-[44px]"
+          >
             <span className="font-medium text-gray-900">Saved items</span>
-            <span className="text-sm text-gray-500">0 items (placeholder)</span>
-          </div>
-          <div className="flex items-center justify-between p-4 bg-white border border-gray-200 rounded-xl">
+            <span className="text-gray-500">→</span>
+          </Link>
+          <Link
+            to="/compare"
+            className="flex items-center justify-between p-4 bg-white border border-gray-200 rounded-xl hover:bg-gray-50 min-h-[44px]"
+          >
             <span className="font-medium text-gray-900">Comparison tool</span>
-            <span className="text-sm text-gray-500">Side-by-side comparison (placeholder)</span>
-          </div>
+            <span className="text-gray-500">→</span>
+          </Link>
         </div>
       </section>
     </div>

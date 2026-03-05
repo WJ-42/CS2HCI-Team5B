@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom'
-import { useAccessibility } from '../context/AccessibilityContext'
+import { useAccessibility } from '../../context/AccessibilityContext'
 
 export default function TopNav() {
   const location = useLocation()

@@ -1,4 +1,4 @@
-import { useAccessibility } from '../context/AccessibilityContext'
+import { useAccessibility } from '../../context/AccessibilityContext'
 
 const PRESETS = [
   { id: 'vision', label: 'Vision needs', description: 'Larger text, high contrast, screen reader hints' },

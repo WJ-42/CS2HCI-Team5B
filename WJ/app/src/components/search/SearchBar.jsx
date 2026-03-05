@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
-import { mockProducts } from '../data/mockProducts'
+import { mockProducts } from '../../data/mockProducts'
 
 export default function SearchBar({ value, onChange, onSelect, placeholder = 'Search products...' }) {
   const [internalQuery, setInternalQuery] = useState('')
@@ -14,7 +14,7 @@ export default function SearchBar({ value, onChange, onSelect, placeholder = 'Se
   const wrapperRef = useRef(null)
 
   useEffect(() => {
-    if (!query.trim()) {
+    if (!query.trim() || query.trim().length < 2) {
       setSuggestions([])
       return
     }

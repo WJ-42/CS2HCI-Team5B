@@ -9,14 +9,15 @@ export default function BottomNav() {
   const inactiveClass = 'text-gray-600 hover:bg-gray-100'
 
   const items = [
-    { to: '/search', label: 'Scan' },
+    { to: '/scan', label: 'Scan' },
     { to: '/search', label: 'Search' },
     { to: '/', label: 'Home' },
   ]
 
   const isActive = (to, label) => {
     if (label === 'Home') return location.pathname === '/'
-    if (label === 'Search' || label === 'Scan') return location.pathname === '/search'
+    if (label === 'Search') return location.pathname === '/search'
+    if (label === 'Scan') return location.pathname === '/scan'
     return false
   }
 

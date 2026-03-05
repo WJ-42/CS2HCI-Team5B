@@ -1,15 +1,24 @@
 import { useParams, Link } from 'react-router-dom'
-import ProductCard from '../components/ProductCard'
+import ProductCard from '../components/common/ProductCard'
 import { mockProducts, categories } from '../data/mockProducts'
+import { useAppState } from '../app/providers/AppProvider'
+import { useFilteredProducts } from '../hooks/useFilteredProducts'
 
 export default function Categories() {
   const { category } = useParams()
+  const { filters, sortOption } = useAppState()
 
-  const products = category
+  const categoryProducts = category
     ? mockProducts.filter((p) => p.category === category)
     : null
 
-  if (category && products) {
+  const products = useFilteredProducts({
+    products: categoryProducts ?? [],
+    filters,
+    sortOption,
+  })
+
+  if (category && categoryProducts) {
     return (
       <div className="py-6 space-y-6">
         <nav className="text-sm text-gray-600" aria-label="Breadcrumb">
@@ -20,10 +29,16 @@ export default function Categories() {
           <span className="text-gray-900">{category}</span>
         </nav>
         <h1 className="text-xl font-semibold text-gray-900">{category}</h1>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {products.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 items-stretch">
+          {products.length > 0 ? (
+            products.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))
+          ) : (
+            <p className="col-span-full text-center text-gray-600 py-8">
+              No products match your filters in this category.
+            </p>
+          )}
         </div>
       </div>
     )

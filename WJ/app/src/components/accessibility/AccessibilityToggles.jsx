@@ -1,4 +1,4 @@
-import { useAccessibility } from '../context/AccessibilityContext'
+import { useAccessibility } from '../../context/AccessibilityContext'
 
 const TOGGLES = [
   { key: 'largerText', label: 'Larger text size' },

@@ -66,6 +66,65 @@ body {
   padding: 0.75rem 1rem;
 }
 
+/* ─── Search page: 2-column layout ─────────────────────────────── */
+
+/* Mobile first: single column stack */
+.search-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+  align-items: flex-start;
+}
+
+.search-sidebar {
+  display: none; /* hidden on mobile */
+}
+
+.search-results {
+  flex: 1;
+  min-width: 0;
+  width: 100%;
+}
+
+.search-mobile-filters {
+  display: block; /* visible on mobile */
+}
+
+/* Desktop: sidebar + results side by side */
+@media (min-width: 768px) {
+  .search-layout {
+    flex-direction: row;
+    gap: 1.75rem;
+  }
+
+  .search-sidebar {
+    display: block;
+    width: 260px;
+    flex-shrink: 0;
+    position: sticky;
+    top: 4rem;
+    align-self: flex-start;
+  }
+
+  .search-mobile-filters {
+    display: none; /* hidden on desktop — sidebar replaces it */
+  }
+}
+
+/* Product grid */
+.search-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1rem;
+  align-items: stretch;
+  width: 100%;
+}
+
+.search-grid > * {
+  min-height: 100%;
+}
+
 /* Screen reader only - visually hidden but announced */
 .sr-only {
   position: absolute;

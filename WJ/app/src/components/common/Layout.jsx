@@ -1,12 +1,14 @@
-import { Outlet } from 'react-router-dom'
-import TopNav from './TopNav'
-import BottomNav from './BottomNav'
+import { Outlet, useLocation } from 'react-router-dom'
+import TopNav from '../nav/TopNav'
+import BottomNav from '../nav/BottomNav'
 import StickyScanButton from './StickyScanButton'
 import OfflineBanner from './OfflineBanner'
-import { useAccessibility } from '../context/AccessibilityContext'
+import { useAccessibility } from '../../context/AccessibilityContext'
 
 export default function Layout() {
+  const location = useLocation()
   const { largerText, highContrast, largerTouchTargets } = useAccessibility()
+  const isSearchPage = location.pathname === '/search'
 
   const accessibilityClasses = [
     largerText && 'accessibility-larger-text',
@@ -20,7 +22,7 @@ export default function Layout() {
     <div className={`min-h-screen flex flex-col ${accessibilityClasses}`}>
       <OfflineBanner />
       <TopNav />
-      <main className="flex-1 pb-20 md:pb-6 max-w-4xl mx-auto w-full px-4">
+      <main className={`flex-1 pb-20 md:pb-6 mx-auto w-full px-4 ${isSearchPage ? 'max-w-6xl' : 'max-w-4xl'}`}>
         <Outlet />
       </main>
       <StickyScanButton />
