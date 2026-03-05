@@ -109,7 +109,7 @@ export default function Search() {
               </button>
             </div>
           ) : (
-            <div className="search-grid">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 items-stretch">
               {filteredProducts.map((product) => (
                 <ProductCard key={product.id} product={product} />
               ))}

@@ -7,7 +7,7 @@ const SUSTAINABILITY_TIPS = [
   'Choose products with recyclable or compostable packaging when possible.',
   'Look for local brands to reduce transport emissions.',
   'Prefer products with certifications like Fair Trade or organic.',
-  'Compare carbon footprints before buying—small choices add up.',
+  'Compare carbon footprints before buying, small choices add up.',
 ]
 
 // Mocked values for the progress widget
@@ -62,7 +62,7 @@ export default function Home() {
             View all
           </Link>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 items-stretch">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 items-stretch">
           {featured.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
