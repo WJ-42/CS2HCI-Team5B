@@ -75,6 +75,7 @@ body {
   gap: 1.5rem;
   width: 100%;
   align-items: flex-start;
+  padding-left: 0;
 }
 
 .search-sidebar {
@@ -95,12 +96,13 @@ body {
 @media (min-width: 768px) {
   .search-layout {
     flex-direction: row;
-    gap: 1.75rem;
+    gap: 3rem;
+    padding-left: 0;
   }
 
   .search-sidebar {
     display: block;
-    width: 260px;
+    width: 320px;
     flex-shrink: 0;
     position: sticky;
     top: 4rem;
@@ -123,6 +125,105 @@ body {
 
 .search-grid > * {
   min-height: 100%;
+}
+
+/* Dual-handle price range slider */
+.price-range-slider {
+  padding: 0.5rem 0;
+}
+
+.price-range-track {
+  position: relative;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+/* Base gray track - visible background */
+.price-range-track::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 6px;
+  background: var(--color-border);
+  border-radius: 3px;
+  z-index: 0;
+}
+
+/* Green fill between thumbs - above base track */
+.price-range-fill {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 6px;
+  background: var(--color-primary);
+  border-radius: 3px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.price-range-input {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 24px;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  pointer-events: none;
+  -webkit-appearance: none;
+  appearance: none;
+  z-index: 2;
+}
+
+.price-range-input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  border: 2px solid white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  pointer-events: auto;
+  margin-top: -6px;
+}
+
+.price-range-input::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  border: 2px solid white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+/* Transparent tracks so our custom track + fill show through */
+.price-range-input::-webkit-slider-runnable-track {
+  height: 6px;
+  background: transparent;
+  border-radius: 3px;
+}
+
+.price-range-input::-moz-range-track {
+  height: 6px;
+  background: transparent;
+  border-radius: 3px;
+}
+
+.price-range-input-min {
+  z-index: 2;
+}
+
+.price-range-input-max {
+  z-index: 3;
 }
 
 /* Screen reader only - visually hidden but announced */
