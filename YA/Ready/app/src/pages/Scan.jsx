@@ -89,9 +89,13 @@ export default function Scan() {
 
   return (
     <div className="py-6 space-y-6">
-      <h1 className="text-xl font-semibold text-gray-900">Scan Product Barcode</h1>
+      <h1 className="text-xl font-semibold text-gray-900">
+        {useBorderedBox ? 'Enter Product Code' : 'Scan Product Barcode'}
+      </h1>
       <p className="text-gray-700">
-        Point your camera at a product barcode to look up sustainability information.
+        {useBorderedBox
+          ? 'Manually search for product details by entering the barcode number'
+          : 'Point your camera at a product barcode to look up sustainability information.'}
       </p>
       <div
         className={`relative w-[512px] h-[384px] rounded-lg flex flex-col overflow-visible ${
@@ -268,7 +272,9 @@ export default function Scan() {
         )}
       </div>
       <p className="text-gray-700">
-        Position the barcode within the frame. Products will open automatically when detected.
+        {useBorderedBox
+          ? 'The 13-digit code can be found underneath the barcode at the back of the packaging.'
+          : 'Position the barcode within the frame. Products will open automatically when detected.'}
       </p>
       <div className="flex flex-wrap gap-3">
         <button
