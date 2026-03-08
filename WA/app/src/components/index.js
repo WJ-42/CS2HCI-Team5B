@@ -13,5 +13,8 @@ export { default as AccessibilityPresets } from './accessibility/AccessibilityPr
 export { default as ProductCard } from './common/ProductCard'
 export { default as Layout } from './common/Layout'
 export { default as ExpandableSection } from './common/ExpandableSection'
+export { default as SustainabilityTooltip } from './common/SustainabilityTooltip'
+export { default as SustainabilityDetails } from './common/SustainabilityDetails'
 export { default as ErrorMessage } from './common/ErrorMessage'
 export { default as LoadingSkeleton } from './common/LoadingSkeleton'
+export { default as SuggestedAlternatives } from './product/SuggestedAlternatives'

@@ -1,4 +1,5 @@
 import { useAppState } from '../../app/providers/AppProvider'
+import { categories } from '../../data/mockProducts'
 
 const MIN_SUSTAINABILITY_OPTIONS = [
   { value: 0, label: 'Any' },
@@ -7,8 +8,8 @@ const MIN_SUSTAINABILITY_OPTIONS = [
   { value: 90, label: 'A (90+)' },
 ]
 
-const PACKAGING_OPTIONS = ['Cardboard', 'Compostable', 'Glass', 'Paper', 'Refillable', 'Loose', 'Minimal', 'Tin']
-const BRAND_OPTIONS = ['Earth Bean', 'EcoClean', 'Fresh Farms', 'Green Bite', 'Green Valley', 'Ocean Fresh', 'Pure Grain', 'Bee Natural', 'CleanEarth', 'EcoSmile', 'SustainBottle']
+const PACKAGING_OPTIONS = ['Cardboard', 'Compostable', 'Glass', 'Paper', 'Plastic', 'Refillable', 'Loose', 'Minimal', 'Tin']
+const BRAND_OPTIONS = ['BeanCo', 'Bee Natural', 'CleanEarth', 'Earth Bean', 'EcoClean', 'EcoSmile', 'FarmFresh', 'Fresh Farms', 'Green Bite', 'Green Valley', "Healthy Start", "Nature's Own", 'Ocean Fresh', 'Pure Grain', 'PureDrink', 'RoastMaster', 'SustainBottle', 'WashGreen']
 const NUTRITION_OPTIONS = ['Vegan', 'Organic', 'High Protein', 'Fair Trade', 'Gluten Free', 'Low Sugar', 'Whole Grain', 'No Added Sugar']
 
 const PRICE_SLIDER_MIN = 0
@@ -102,6 +103,7 @@ export default function FilterControls() {
 
   const clearFilters = () => {
     setFilters({
+      category: null,
       minSustainability: 0,
       maxCarbonFootprint: null,
       priceMin: null,
@@ -112,7 +114,12 @@ export default function FilterControls() {
     })
   }
 
+  const setCategory = (cat) => {
+    setFilters((prev) => ({ ...prev, category: prev.category === cat ? null : cat }))
+  }
+
   const hasActiveFilters =
+    filters.category != null ||
     filters.minSustainability > 0 ||
     filters.maxCarbonFootprint != null ||
     filters.priceMin != null ||
@@ -134,6 +141,27 @@ export default function FilterControls() {
             Clear all
           </button>
         )}
+      </div>
+
+      <div>
+        <h3 className="text-sm font-medium text-gray-700 mb-1.5">Category</h3>
+        <div className="flex flex-wrap gap-2">
+          {categories.map((cat) => {
+            const active = filters.category === cat
+            return (
+              <button
+                key={cat}
+                type="button"
+                onClick={() => setCategory(cat)}
+                className={`px-2.5 py-2 rounded-lg text-sm font-medium min-h-[40px] ${
+                  active ? 'bg-green-600 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                }`}
+              >
+                {cat}
+              </button>
+            )
+          })}
+        </div>
       </div>
 
       <div>

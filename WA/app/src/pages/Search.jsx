@@ -35,6 +35,7 @@ export default function Search() {
 
   const resetFilters = () => {
     setFilters({
+      category: null,
       minSustainability: 0,
       maxCarbonFootprint: null,
       priceMin: null,
