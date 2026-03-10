@@ -1,0 +1,240 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #22c55e;
+  --color-primary-dark: #16a34a;
+  --color-primary-light: #dcfce7;
+  --color-primary-lighter: #bbf7d0;
+  --color-text: #111827;
+  --color-text-muted: #6b7280;
+  --color-bg: #ffffff;
+  --color-bg-muted: #f9fafb;
+  --color-border: #e5e7eb;
+  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* Base styles */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+}
+
+/* Accessibility: larger text */
+.accessibility-larger-text {
+  font-size: 1.125rem;
+}
+
+.accessibility-larger-text h1 {
+  font-size: 2rem;
+}
+
+.accessibility-larger-text h2 {
+  font-size: 1.5rem;
+}
+
+.accessibility-larger-text button,
+.accessibility-larger-text a {
+  font-size: 1.0625rem;
+}
+
+/* Accessibility: high contrast */
+.accessibility-high-contrast {
+  --color-text: #000000;
+  --color-text-muted: #333333;
+  --color-border: #000000;
+  background-color: #ffffff;
+}
+
+.accessibility-high-contrast button,
+.accessibility-high-contrast a {
+  border: 2px solid #000000;
+}
+
+/* Accessibility: larger touch targets (min 44px) */
+.accessibility-touch-large button,
+.accessibility-touch-large a,
+.accessibility-touch-large [role="button"] {
+  min-height: 44px;
+  min-width: 44px;
+  padding: 0.75rem 1rem;
+}
+
+/* ─── Search page: 2-column layout ─────────────────────────────── */
+
+/* Mobile first: single column stack */
+.search-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  width: 100%;
+  align-items: flex-start;
+  padding-left: 0;
+}
+
+.search-sidebar {
+  display: none; /* hidden on mobile */
+}
+
+.search-results {
+  flex: 1;
+  min-width: 0;
+  width: 100%;
+}
+
+.search-mobile-filters {
+  display: block; /* visible on mobile */
+}
+
+/* Desktop: sidebar + results side by side */
+@media (min-width: 768px) {
+  .search-layout {
+    flex-direction: row;
+    gap: 6rem;
+    padding-left: 0;
+  }
+
+  .search-sidebar {
+    display: block;
+    width: 320px;
+    flex-shrink: 0;
+    position: sticky;
+    top: 4rem;
+    align-self: flex-start;
+  }
+
+  .search-mobile-filters {
+    display: none; /* hidden on desktop — sidebar replaces it */
+  }
+}
+
+/* Product grid */
+.search-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1rem;
+  align-items: stretch;
+  width: 100%;
+}
+
+.search-grid > * {
+  min-height: 100%;
+}
+
+/* Dual-handle price range slider */
+.price-range-slider {
+  padding: 0.5rem 0;
+}
+
+.price-range-track {
+  position: relative;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+/* Base gray track - visible background */
+.price-range-track::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 6px;
+  background: var(--color-border);
+  border-radius: 3px;
+  z-index: 0;
+}
+
+/* Green fill between thumbs - above base track */
+.price-range-fill {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 6px;
+  background: var(--color-primary);
+  border-radius: 3px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.price-range-input {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 24px;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  pointer-events: none;
+  -webkit-appearance: none;
+  appearance: none;
+  z-index: 2;
+}
+
+.price-range-input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  border: 2px solid white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  pointer-events: auto;
+  margin-top: -6px;
+}
+
+.price-range-input::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  border: 2px solid white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+/* Transparent tracks so our custom track + fill show through */
+.price-range-input::-webkit-slider-runnable-track {
+  height: 6px;
+  background: transparent;
+  border-radius: 3px;
+}
+
+.price-range-input::-moz-range-track {
+  height: 6px;
+  background: transparent;
+  border-radius: 3px;
+}
+
+.price-range-input-min {
+  z-index: 2;
+}
+
+.price-range-input-max {
+  z-index: 3;
+}
+
+/* Screen reader only - visually hidden but announced */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
