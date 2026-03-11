@@ -26,16 +26,12 @@ function getCarbonFootprint(product) {
  * @param {string[]} [filters.packagingType] - Allowed packaging types (OR)
  * @param {string[]} [filters.brand] - Allowed brands (OR)
  * @param {string[]} [filters.nutritionTags] - Product must have at least one of these tags (OR)
- * @param {string|null} [filters.category] - Filter by category
  * @returns {Array} Filtered products
  */
 export function filterProducts(products, filters = {}) {
   if (!filters || Object.keys(filters).length === 0) return products
 
   return products.filter((p) => {
-    if (filters.category) {
-      if (p.category !== filters.category) return false
-    }
     if (filters.minSustainability != null) {
       const rating = getSustainabilityNumeric(p)
       if (rating < filters.minSustainability) return false
