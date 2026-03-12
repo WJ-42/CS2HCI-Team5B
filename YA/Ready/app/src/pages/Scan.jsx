@@ -112,7 +112,7 @@ export default function Scan() {
   return (
     <div className="py-6 space-y-6">
       <h1 className="text-xl font-semibold text-gray-900">
-        {viewState === 'productSummary' ? "Product Summary - Here's what we found about your scanned product" : useBorderedBox ? 'Enter Product Code' : 'Scan Product Barcode'}
+        {viewState === 'productSummary' ? 'Product Summary - Here\'s what we found about your scanned product' : useBorderedBox ? 'Enter Product Code' : 'Scan Product Barcode'}
       </h1>
       {viewState !== 'productSummary' && (
         <p className="text-gray-700">
