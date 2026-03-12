@@ -10,6 +10,11 @@ export const mockProducts = [
     packagingType: 'Cardboard',
     nutritionTags: ['Vegan', 'Low Sugar', 'Calcium Fortified'],
     isBestSustainableChoice: true,
+    imageUrl: 'https://images.unsplash.com/photo-1553301803-768cd4a59b9c?w=200&h=200&fit=crop&auto=format',
+    environmentalSummary: 'Plant-based, recyclable cardboard packaging.',
+    ingredients: 'Water, almonds, calcium carbonate, sea salt, vitamin E, vitamin D2.',
+    nutritionSummary: 'Per 100ml: 24 kcal, 1g protein, 2g carbs, 1.1g fat. Fortified with calcium and vitamins.',
+    ethicalSourcing: 'Organic certified',
   },
   {
     id: 2,

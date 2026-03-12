@@ -1,5 +1,15 @@
 import { useState, useRef, useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import { mockProducts } from '../data/mockProducts'
+import SustainabilityDetails from '../components/common/SustainabilityDetails'
+import SustainabilityTooltip from '../components/common/SustainabilityTooltip'
+import EcoBadgesTooltip from '../components/common/EcoBadgesTooltip'
+
+const RATING_STYLES = {
+  A: 'bg-green-100 text-green-800',
+  B: 'bg-amber-100 text-amber-800',
+  C: 'bg-red-100 text-red-800',
+}
 
 export default function Scan() {
   const [useBorderedBox, setUseBorderedBox] = useState(false)
@@ -7,6 +17,9 @@ export default function Scan() {
   const [barcode, setBarcode] = useState('')
   const [barcodeError, setBarcodeError] = useState(false)
   const [codeBoxState, setCodeBoxState] = useState(1) // 1: input, 2: error/retry
+  const [viewState, setViewState] = useState('enterCode') // 'enterCode' | 'loading' | 'productSummary'
+  const [loadingType, setLoadingType] = useState(null) // null | 'valid' | 'invalidCode' | 'invalidScan'
+  const [showProductDetectedText, setShowProductDetectedText] = useState(false)
   const [signalState, setSignalState] = useState(0)
   const inputRefs = useRef([])
 
@@ -47,6 +60,15 @@ export default function Scan() {
     const t = setTimeout(() => setBarcodeError(false), 2000)
     return () => clearTimeout(t)
   }, [barcodeError])
+
+  useEffect(() => {
+    if (loadingType !== 'valid') {
+      setShowProductDetectedText(false)
+      return
+    }
+    const t = setTimeout(() => setShowProductDetectedText(true), 1000)
+    return () => clearTimeout(t)
+  }, [loadingType])
 
   const SignalIcon = ({ darkBg = false, state = 0 }) => {
     const unfilledColor = darkBg ? '#6b7280' : '#d1d5db'
@@ -90,19 +112,37 @@ export default function Scan() {
   return (
     <div className="py-6 space-y-6">
       <h1 className="text-xl font-semibold text-gray-900">
-        {useBorderedBox ? 'Enter Product Code' : 'Scan Product Barcode'}
+        {viewState === 'productSummary' ? "Product Summary - Here's what we found about your scanned product" : useBorderedBox ? 'Enter Product Code' : 'Scan Product Barcode'}
       </h1>
-      <p className="text-gray-700">
-        {useBorderedBox
-          ? 'Manually search for product details by entering the barcode number'
-          : 'Point your camera at a product barcode to look up sustainability information.'}
-      </p>
+      {viewState !== 'productSummary' && (
+        <p className="text-gray-700">
+          {useBorderedBox
+            ? 'Manually search for product details by entering the barcode number'
+            : 'Point your camera at a product barcode to look up sustainability information.'}
+        </p>
+      )}
+      {viewState !== 'productSummary' && (
       <div
         className={`relative w-[512px] h-[384px] rounded-lg flex flex-col overflow-visible ${
-          useBorderedBox ? 'border-[5px] border-black bg-transparent' : 'border-[5px] border-black bg-gray-200 justify-center'
+          viewState === 'loading'
+            ? 'border-[5px] border-black bg-gray-200 justify-center items-center'
+            : useBorderedBox
+              ? 'border-[5px] border-black bg-transparent'
+              : 'border-[5px] border-black bg-gray-200 justify-center'
         }`}
-        aria-hidden={!useBorderedBox}
+        aria-hidden={!useBorderedBox && viewState !== 'loading'}
       >
+        {viewState === 'loading' && (
+          <div className="flex flex-col items-center justify-center gap-4" aria-live="polite">
+            <div className="w-12 h-12 border-4 border-green-600 border-t-transparent rounded-full animate-spin" aria-hidden="true" />
+            <p className="text-gray-700">Loading...</p>
+            {loadingType === 'valid' && showProductDetectedText && (
+              <p className="text-gray-700 text-center">Product Detected - Organic Almond Milk</p>
+            )}
+          </div>
+        )}
+        {viewState !== 'loading' && (
+        <>
         <button
           type="button"
           onClick={cycleSignalState}
@@ -123,7 +163,15 @@ export default function Scan() {
         {!useBorderedBox && scanScreenState === 1 && (
           <button
             type="button"
-            onClick={() => setScanScreenState(2)}
+            onClick={() => {
+              setLoadingType('invalidScan')
+              setViewState('loading')
+              setTimeout(() => {
+                setScanScreenState(2)
+                setViewState('enterCode')
+                setLoadingType(null)
+              }, 2000)
+            }}
             className="flex-1 flex items-center justify-center min-h-0 w-full cursor-pointer border-0 bg-transparent p-0"
             aria-label="Scan barcode (click to simulate scan)"
           >
@@ -202,7 +250,7 @@ export default function Scan() {
             </button>
           </div>
         )}
-        {useBorderedBox && codeBoxState === 1 && (
+        {viewState === 'enterCode' && useBorderedBox && codeBoxState === 1 && (
           <div className="flex-1 flex flex-col items-center min-h-0" role="group" aria-label="13-digit barcode input">
             <div className="h-[66px] shrink-0 w-full" aria-hidden="true" />
             <div className="flex-1 min-h-0 w-full" />
@@ -235,9 +283,23 @@ export default function Scan() {
               onClick={() => {
                 if (barcode.length !== 13) {
                   setBarcodeError(true)
+                } else if (barcode === '0000000000000') {
+                  setBarcodeError(false)
+                  setLoadingType('valid')
+                  setViewState('loading')
+                  setTimeout(() => {
+                    setViewState('productSummary')
+                    setLoadingType(null)
+                  }, 3000)
                 } else {
                   setBarcodeError(false)
-                  setCodeBoxState(2)
+                  setLoadingType('invalidCode')
+                  setViewState('loading')
+                  setTimeout(() => {
+                    setCodeBoxState(2)
+                    setViewState('enterCode')
+                    setLoadingType(null)
+                  }, 2000)
                 }
               }}
               className="inline-block px-4 py-2 bg-green-600 text-white font-medium rounded-xl hover:bg-green-700 min-h-[44px] min-w-[44px] shrink-0 mb-[20px]"
@@ -252,7 +314,7 @@ export default function Scan() {
             <div className="flex-1 min-h-0 w-full" />
           </div>
         )}
-        {useBorderedBox && codeBoxState === 2 && (
+        {viewState === 'enterCode' && useBorderedBox && codeBoxState === 2 && (
           <div className="flex-1 flex flex-col items-center justify-center min-h-0 w-full gap-6" aria-live="polite">
             <p className="text-gray-700 text-center px-4">
               Invalid code. Please try again.
@@ -270,26 +332,41 @@ export default function Scan() {
             </button>
           </div>
         )}
+        </>
+        )}
       </div>
+      )}
+      {viewState !== 'productSummary' && (
       <p className="text-gray-700">
         {useBorderedBox
           ? 'The 13-digit code can be found underneath the barcode at the back of the packaging.'
           : 'Position the barcode within the frame. Products will open automatically when detected.'}
       </p>
+      )}
       <div className="flex flex-wrap gap-3">
-        <button
-          type="button"
-          onClick={() => {
-          setUseBorderedBox((prev) => !prev)
-          if (useBorderedBox) {
-            setScanScreenState(1)
-            setCodeBoxState(1)
-          }
-        }}
-          className="inline-block px-4 py-2 bg-green-600 text-white font-medium rounded-xl hover:bg-green-700 min-h-[44px] min-w-[44px]"
-        >
-          {useBorderedBox ? 'Scan barcode' : 'Search manually instead'}
-        </button>
+        {viewState === 'productSummary' ? (
+          <button
+            type="button"
+            onClick={() => setViewState('enterCode')}
+            className="inline-block px-4 py-2 bg-green-600 text-white font-medium rounded-xl hover:bg-green-700 min-h-[44px] min-w-[44px]"
+          >
+            Return to scan
+          </button>
+        ) : (
+          <button
+            type="button"
+            onClick={() => {
+              setUseBorderedBox((prev) => !prev)
+              if (useBorderedBox) {
+                setScanScreenState(1)
+                setCodeBoxState(1)
+              }
+            }}
+            className="inline-block px-4 py-2 bg-green-600 text-white font-medium rounded-xl hover:bg-green-700 min-h-[44px] min-w-[44px]"
+          >
+            {useBorderedBox ? 'Scan barcode' : 'Search manually instead'}
+          </button>
+        )}
         <Link
           to="/"
           className="inline-block px-4 py-2 bg-green-600 text-white font-medium rounded-xl hover:bg-green-700 min-h-[44px] min-w-[44px]"
@@ -297,6 +374,104 @@ export default function Scan() {
           Back to Home
         </Link>
       </div>
+      {viewState === 'productSummary' && (() => {
+        const product = mockProducts.find((p) => p.id === 1)
+        if (!product) return null
+        const { name, brand, price, sustainabilityRating, carbonFootprint, packagingType, environmentalSummary, ingredients, nutritionSummary, ethicalSourcing, imageUrl } = product
+        const ratingStyle = RATING_STYLES[sustainabilityRating] ?? 'bg-gray-100 text-gray-800'
+        const packagingNote = ['Cardboard', 'Paper', 'Compostable', 'Glass', 'Tin', 'Refillable', 'Minimal', 'Loose'].includes(packagingType)
+          ? 'Widely recyclable or compostable.'
+          : 'Check local recycling guidelines.'
+        return (
+          <div className="w-full space-y-6 pt-4">
+            {/* Top section */}
+            <section className="bg-white border border-gray-200 rounded-xl p-6 flex flex-col md:flex-row gap-6">
+              <div className="md:w-1/3 shrink-0">
+                <div className="aspect-square bg-gray-100 rounded-xl overflow-hidden">
+                  {imageUrl ? (
+                    <img src={imageUrl} alt={name} className="w-full h-full object-cover" />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center text-gray-400">{product.category}</div>
+                  )}
+                </div>
+              </div>
+              <div className="flex-1 min-w-0">
+                <h1 className="text-2xl font-bold text-gray-900">{name}</h1>
+                <p className="text-gray-600 mt-1">{brand}</p>
+                <p className="text-xl font-bold text-green-600 mt-2">£{price.toFixed(2)}</p>
+                <div className="mt-2">
+                  <SustainabilityTooltip rating={sustainabilityRating}>
+                    <span className={`inline-block text-sm font-semibold px-3 py-1 rounded ${ratingStyle}`}>
+                      Sustainability: {sustainabilityRating}
+                    </span>
+                  </SustainabilityTooltip>
+                  <div className="flex items-end gap-3 py-3 mt-2">
+                    <div className="flex items-end gap-2">
+                    {[0, 1, 2, 3].map((i) => {
+                      const positions = ['0 0', '100% 0', '0 100%', '100% 100%']
+                      return (
+                        <div
+                          key={i}
+                          className={`w-[84px] h-[84px] shrink-0 rounded-lg overflow-hidden bg-gray-100 ${i >= 2 ? 'translate-y-[10px]' : ''}`}
+                          style={{
+                            backgroundImage: 'url(/eco-badges.png)',
+                            backgroundSize: '200% 200%',
+                            backgroundPosition: positions[i],
+                          }}
+                          role="img"
+                          aria-label={['Sustainable Product', 'Carbon Footprint', 'Recyclable', 'Eco Friendly'][i]}
+                        />
+                      )
+                    })}
+                    </div>
+                    <EcoBadgesTooltip />
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            {/* Product information */}
+            <section className="bg-white border border-gray-200 rounded-xl p-6 space-y-4">
+              <h2 className="text-lg font-semibold text-gray-900">Product information</h2>
+
+              <div>
+                <h3 className="text-sm font-medium text-gray-700">Ingredients</h3>
+                <p className="text-sm text-gray-600 mt-1">{ingredients ?? 'Not specified'}</p>
+              </div>
+
+              <div>
+                <h3 className="text-sm font-medium text-gray-700">Nutrition summary</h3>
+                <p className="text-sm text-gray-600 mt-1">{nutritionSummary ?? 'Not specified'}</p>
+              </div>
+
+              <div>
+                <h3 className="text-sm font-medium text-gray-700">Carbon footprint</h3>
+                <p className="text-sm text-gray-600 mt-1">{carbonFootprint}kg CO2e per unit</p>
+              </div>
+
+              <div>
+                <h3 className="text-sm font-medium text-gray-700">Packaging recyclability</h3>
+                <p className="text-sm text-gray-600 mt-1">{packagingType} packaging. {packagingNote}</p>
+              </div>
+
+              {ethicalSourcing && (
+                <div>
+                  <h3 className="text-sm font-medium text-gray-700">Ethical sourcing</h3>
+                  <span className="inline-block mt-1 px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded">
+                    {ethicalSourcing}
+                  </span>
+                </div>
+              )}
+            </section>
+
+            {/* Sustainability – visible info + expandable details */}
+            <section className="bg-white border border-gray-200 rounded-xl p-6">
+              <h2 className="text-lg font-semibold text-gray-900 mb-4">Sustainability</h2>
+              <SustainabilityDetails product={product} />
+            </section>
+          </div>
+        )
+      })()}
     </div>
   )
 }
